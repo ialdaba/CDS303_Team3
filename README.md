@@ -7,4 +7,5 @@ Repo for CDS 303 Fall 21 Project (Team 3)
 
 
 Business Question: How can we increase the efficiency of making and reviewing decisions to extend credit? 
-\nAnalytic Question: How can we use classification to organize customer data to determine which group of customers should be extended credit and which should not? 
+
+Analytic Question: How can we use classification to organize customer data to determine which group of customers should be extended credit and which should not? 
