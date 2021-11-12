@@ -5,6 +5,7 @@ from PIL import Image
 import itertools
 import pprint
 import random
+# Edits by Isabel
 
 
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
