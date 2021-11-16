@@ -22,33 +22,89 @@ from sklearn.model_selection import GridSearchCV
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Suppress warnings 
-import warnings
-warnings.filterwarnings('ignore')
-
-# load in file
-df = pd.read_csv (r'C:\Users\Owner\Desktop\loan_applications.csv')   
+# load data for applicants
+loan_apps = pd.read_csv (r'/Users/jeremya./Desktop/loan_apps.csv')   
 
 
 # create function to manage outliers
-# df = dataframe
-# col = column in df
+# loan_apps = dataframe
+# col = column in loan_apps
 # max = if a value is greater than the max, it is an outlier
 # min = if a value is less than the min, it is an outlier
-# returns new df with no outliers
-def outliers(df, col, dmax, dmin, impute_val):
+# val = value we will temporarily replace with NaN (will change to median later)
+# returns new loan_apps with no outliers
+def handle_outliers(loan_apps, col_name, max, min, val = np.nan):
+	
+	is_outlier = (loan_apps[col_name] > max) | (loan_apps[col_name  ] < min)
+	loan_apps_anomalous = loan_apps[is_outlier]
+	
+	num_of_outlier_rows = len(loan_apps_anomalous.index)
+    
+	if num_of_outlier_rows > 0:
+		# print unique outlier values
+		outliers = loan_apps_anomalous[col_name].unique()
+		print("List of unique outlier values in '{}' column, as found: {}".format(col_name, str(outliers)))
+        
+		# replace outliers
+		loan_apps.loc[is_outlier, col_name] = val
+		print('Number of rows updated: ', str(num_of_outlier_rows))
+	else:
+		print("No outlier found for column '{}'.".format(col_name))
+    
+	del loan_apps_anomalous
+	gc.collect()
+    
+	return loan_apps
+    
+min_days_birth = -32850
+max_days_birth = 0
 
-	outlier = (df[col] > dmax) | (df[col] < dmin)
+loan_apps = handle_outliers(loan_apps, 'DAYS_BIRTH', max_days_birth, min_days_birth)
 
-    # replace all outliers
-	df.loc[outlier, col] = impute_val
-	return df
+min_employ = -21900
+max_employ = 0
+
+loan_apps = handle_outliers(loan_apps, 'DAYS_EMPLOYED', max_employ, min_employ)
+
+max_car_age = 80
+min_car_age = 0
+loan_apps = handle_outliers(loan_apps, 'OWN_CAR_AGE', max_car_age, min_car_age)
+
+max_rating = 999 # take some arbitrary high value
+min_rating = 0 # take some arbitrary high value
+loan_apps = handle_outliers(loan_apps, 'REGION_RATING_CLIENT', max_rating, min_rating)
+
+max_income = 1e8
+min_income = 0
+loan_apps = handle_outliers(loan_apps, 'AMT_INCOME_TOTAL', max_income, min_income)
+
+############################################################################################################
+# ENCODING SECTION
+
+# Create a label encoder object
+le = LabelEncoder()
+encoded_col_count = 0
+
+# Iterate through the columns
+for col in loan_apps:
+    if loan_apps[col].dtype == 'object':
+        # If 2 unique categories
+        if len(list(loan_apps[col].unique())) == 2:
+            # Fit and transform column data
+            loan_apps[col] = le.fit_transform(loan_apps[col])
+            # Keep track of how many columns were label encoded
+            encoded_col_count += 1
+
+loan_apps = pd.get_dummies(loan_apps)
+
+############################################################################################################
+# IMPUTING SECTION
 
 dataimputer = SimpleImputer(strategy='median')
 
-datafinal = pd.DataFrame(dataimputer.fit_transform(df))
-datafinal.columns = df.columns
-datafinal.index = df.index
+datafinal = pd.DataFrame(dataimputer.fit_transform(loan_apps))
+datafinal.columns = loan_apps.columns
+datafinal.index = loan_apps.index
 datafinal.head()
 datafinal.shape
 
@@ -112,8 +168,8 @@ def pca_weights(pca, i, trainingset):
     OUTPUT:
     weighted: weights associated with dataset
     '''
-    dfinal = pd.DataFrame(pca.components_, columns=list(trainingset.columns))
-    weightamn = dfinal.iloc[i].sort_values(ascending=False)
+    loan_apps_final = pd.DataFrame(pca.components_, columns=list(trainingset.columns))
+    weightamn = loan_apps_final.iloc[i].sort_values(ascending=False)
     return weightamn
 
 def plot_PCA_feature_associations(pca, i, trainingset):
@@ -143,7 +199,7 @@ def form_dataframe(princ_data, princ_count, columnprefix):
     princ_count: count of principal components
     columnprefix: prefix for the column names
     OUTPUT:
-    df: created dataframe
+    apps_df: final dataframe
     '''
     df_cols = []
     for i in range(princ_count):
@@ -151,7 +207,7 @@ def form_dataframe(princ_data, princ_count, columnprefix):
         df_cols.append(column_name)
     df = pd.DataFrame(princ_data, columns = df_cols)
     
-    return df
+    return apps_df
 
 pca_datafinal = form_dataframe(final_pca, pca_40.components_.shape[0], 'pc')
 pca_datafinal['TARGET'] = training_labels
