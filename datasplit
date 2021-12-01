@@ -1,0 +1,21 @@
+def split_test_train(d,output_col):
+'''
+input
+  d: data
+  op_col: output column with labels 
+  
+  Output
+  X_train: input parameters for training 
+  X_test: input parameters for testing 
+  Y_train: output labels for training 
+  Y_test: output labels for testing 
+  '''
+  
+  #create X,Y
+  Y = d[op_col]
+  X = d.drop([op_col], axis =1)
+  # split into training data, testing data 
+  X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size =0.3, random_state =35)
+  Return X_train, X_test, Y_train, Y_test
+  
+  
