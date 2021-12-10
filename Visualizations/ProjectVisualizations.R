@@ -142,21 +142,21 @@ ggplot(graphdata, #calling data
         panel.background = element_rect(fill = "white"))
 
 #Missing data
-datatrain5 <- datatrain[sample(nrow(datatrain), 1000), ] #Calling 50 random rows
+datatrain5 <- datatrain[sample(nrow(datatrain), 1000), ] #Calling 1000 random rows
 
-vis_miss(datatrain5) +
-  labs(title = "Missing Data") +
-  coord_flip() +
+vis_miss(datatrain5) + #calling data
+  labs(title = "Missing Data") + #titling plot
+  coord_flip() + #flipping y and x axis so that categorical data labels/text are horizontal
   theme(plot.title = element_text(hjust = 0.5, #Centering title
                                   face = "bold", #Bolding title
                                   size = 18), #Adjusting title font size
         axis.text.y = element_text(size = 4)) #Adjusting y axis label font size
 
-data_cleaned2 <- data_cleaned[sample(nrow(data_cleaned), 1000), ] #Calling 50 random rows
+data_cleaned2 <- data_cleaned[sample(nrow(data_cleaned), 1000), ] #Calling 1000 random rows
 
-vis_miss(data_cleaned2) +
-  labs(title = "Cleaned Data") +
-  coord_flip() +
+vis_miss(data_cleaned2) + #calling data
+  labs(title = "Cleaned Data") + #titling plot
+  coord_flip() + #flipping y and x axis so that categorical data labels/text are horizontal
   theme(plot.title = element_text(hjust = 0.5, #Centering title
                                   face = "bold", #bolding title
                                   size = 18), #Adjusting title font size
