@@ -7,7 +7,8 @@ setwd("C:/Users/David/Documents/SR-YR-3S/CDS-303") #Set directory to file path w
 datatrain <- read.csv("application_train.csv") #import dirty data
 data_cleaned <- read.csv("cleaned_data.csv") #import clean data
 library(ggplot2) #import visualization library
-library(tidyverse) #import tidyverse
+library(tidyverse)
+library(naniar)
 
 #Income Distribution
 datatrain2 <- subset(datatrain, datatrain$AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
