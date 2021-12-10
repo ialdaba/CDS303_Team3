@@ -140,12 +140,23 @@ ggplot(graphdata, #calling data
         plot.background = element_rect(fill = "white"),
         panel.background = element_rect(fill = "white"))
 
-                     #Missing data
+#Missing data
 datatrain5 <- datatrain[sample(nrow(datatrain), 1000), ] #Calling 50 random rows
 
 vis_miss(datatrain5) +
   labs(title = "Missing Data") +
-  theme(plot.title = element_text(hjust = 0.5, #centering title
+  coord_flip() +
+  theme(plot.title = element_text(hjust = 0.5, #Centering title
+                                  face = "bold", #Bolding title
+                                  size = 18), #Adjusting title font size
+        axis.text.y = element_text(size = 4)) #Adjusting y axis label font size
+
+data_cleaned2 <- data_cleaned[sample(nrow(data_cleaned), 1000), ] #Calling 50 random rows
+
+vis_miss(data_cleaned2) +
+  labs(title = "Cleaned Data") +
+  coord_flip() +
+  theme(plot.title = element_text(hjust = 0.5, #Centering title
                                   face = "bold", #bolding title
-                                  size = 18), #adjusting title font size
-        axis.text.x = element_text(size = 6)) #adjusting x axis labels font size
+                                  size = 18), #Adjusting title font size
+        axis.text.y = element_text(size = 2)) #Adjusting y axis label font size
