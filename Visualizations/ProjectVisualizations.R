@@ -118,14 +118,14 @@ ggplot(data.frame(datatrain), #Calling data
 #Income ~ Credit
 datatrain4 <- data.frame(data_cleaned$AMT_INCOME_TOTAL, data_cleaned$AMT_CREDIT, data_cleaned$TARGET) #creating dataframe with only necessary attributes
 
-datatrain4 <- subset(datatrain4, reqDat$data_cleaned.AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
+datatrain4 <- subset(datatrain4, datatrain4$data_cleaned.AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
 
-graphdata <- reqDat[sample(nrow(reqDat), 50), ] #Calling 50 random rows
+datatrain4 <- datatrain4[sample(nrow(datatrain4), 50), ] #Calling 50 random rows
 
-ggplot(graphdata, #calling data
+ggplot(datatrain4, #calling data
        aes(x = data_cleaned.AMT_INCOME_TOTAL, #calling dataset and income
-             y = data_cleaned.AMT_CREDIT, #calling credit
-             color = data_cleaned.TARGET)) + #Coloring over target variable
+           y = data_cleaned.AMT_CREDIT, #calling credit
+           color = data_cleaned.TARGET)) + #Coloring over target variable
   geom_point(alpha = 0.5) + #Making points translucent
   scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) + #making x axis values discrete so it will plot labels properly
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) + #making y axis values discrete so it will plot labels properly
@@ -140,7 +140,6 @@ ggplot(graphdata, #calling data
         panel.grid.minor = element_blank(),
         plot.background = element_rect(fill = "white"),
         panel.background = element_rect(fill = "white"))
-
 #Missing data
 datatrain5 <- datatrain[sample(nrow(datatrain), 1000), ] #Calling 1000 random rows
 
