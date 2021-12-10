@@ -1,3 +1,8 @@
+#####################################
+## Name: David Ricks
+## Assignment: CDS 303 Project Visualizations
+#####################################
+
 setwd("C:/Users/David/Documents/SR-YR-3S/CDS-303") #Set directory to file path where datasets are locally stored
 datatrain <- read.csv("application_train.csv") #import dirty data
 data_cleaned <- read.csv("cleaned_data.csv") #import clean data
