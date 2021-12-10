@@ -89,14 +89,13 @@ ggplot(data.frame(datatrain), aes(x = OCCUPATION_TYPE)) + #Calling data and job 
         panel.background = element_rect(fill = "white"))
 
 #Income ~ Credit
-reqDat <- data.frame(data_cleaned$AMT_INCOME_TOTAL, data_cleaned$AMT_CREDIT, data_cleaned$TARGET) #creating dataframe with only necessary attributes
+datatrain4 <- data.frame(data_cleaned$AMT_INCOME_TOTAL, data_cleaned$AMT_CREDIT, data_cleaned$TARGET) #creating dataframe with only necessary attributes
 
-reqDat <- subset(reqDat, reqDat$data_cleaned.AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
+datatrain4 <- subset(datatrain4, reqDat$data_cleaned.AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
 
-graphData <- reqDat[sample(nrow(reqDat), 50), ] #Calling 50 random rows
+graphdata <- reqDat[sample(nrow(reqDat), 50), ] #Calling 50 random rows
 
-graphData %>% #Calling dataset
-  ggplot(aes(x = data_cleaned.AMT_INCOME_TOTAL, #calling income
+ggplot(graphdata, aes(x = data_cleaned.AMT_INCOME_TOTAL, #calling dataset and income
              y = data_cleaned.AMT_CREDIT, #calling credit
              color = data_cleaned.TARGET)) + #Coloring over target variable
   geom_point(alpha = 0.5) + #Making points translucent
