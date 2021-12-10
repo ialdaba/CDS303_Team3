@@ -91,9 +91,10 @@ ggplot(data.frame(datatrain), aes(x = OCCUPATION_TYPE)) + #Calling data and job 
 #Income ~ Credit
 reqDat <- data.frame(data_cleaned$AMT_INCOME_TOTAL, data_cleaned$AMT_CREDIT, data_cleaned$TARGET) #creating dataframe with only necessary attributes
 
+reqDat <- subset(reqDat, reqDat$data_cleaned.AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
+
 graphData <- reqDat[sample(nrow(reqDat), 50), ] #Calling 50 random rows
 
-#graph correlation between Income & Credit
 graphData %>% #Calling dataset
   ggplot(aes(x = data_cleaned.AMT_INCOME_TOTAL, #calling income
              y = data_cleaned.AMT_CREDIT, #calling credit
