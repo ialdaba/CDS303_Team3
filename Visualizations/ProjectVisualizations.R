@@ -132,6 +132,14 @@ ggplot(data.frame(datatrain), #Calling data
         panel.background = element_rect(fill = "white"))
 
 #Income ~ Credit
+data1 <- subset(data_cleaned, data_cleaned$TARGET == 1)
+
+data0 <- subset(data_cleaned, data_cleaned$TARGET == 0)
+
+data0.2 <- data0[sample(nrow(data0), 24825), ]
+
+data_cleaned <- rbind(data1, data0.2)
+                     
 datatrain4 <- data.frame(data_cleaned$AMT_INCOME_TOTAL, data_cleaned$AMT_CREDIT, data_cleaned$TARGET) #creating dataframe with only necessary attributes
 
 datatrain4 <- subset(datatrain4, datatrain4$data_cleaned.AMT_INCOME_TOTAL < 400000) #removing income outliers for better visualization
