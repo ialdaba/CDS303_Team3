@@ -79,6 +79,23 @@ ggplot(data, #calling data
                                   face = "bold", #Bolding title
                                   size = 18)) #Adjusting title font size
 
+#Cleaned Gender Distribution
+                     data_cleaned3 <- data.frame( #creating new dataset
+  group = c("Male", "Female"), #with a variable called group and rows of male and female
+  value=c(49, 51)) #defining female and male distribution
+
+ggplot(data_cleaned3, aes(x = "", #No x value
+                          y = value, #percentages
+                          fill = group)) + #labels
+  geom_bar(stat="identity", width=1) + #defining visual as histogram
+  labs(title = "Cleaned Gender Distribution", fill = "Gender") + # creating title
+  coord_polar("y", start=0) + #converting histogram to pie chart
+  theme_void() + #removing visual clutter
+  theme(legend.position = "bottom", #moving legend to bottom
+        plot.title = element_text(hjust = 0.5, #Centering title
+                                  face = "bold", #bolding title
+                                  size = 18)) #adjusting title font size
+                     
 #Employment Distribution
 datatrain3 <- subset(datatrain, datatrain$DAYS_EMPLOYED < 0)
 
@@ -98,7 +115,6 @@ ggplot(datatrain3, #calling data
         panel.grid.minor = element_blank(),
         plot.background = element_rect(fill = "white"),
         panel.background = element_rect(fill = "white"))
-
 
 #Job Type Distribution
 ggplot(data.frame(datatrain), #Calling data
@@ -140,6 +156,7 @@ ggplot(datatrain4, #calling data
         panel.grid.minor = element_blank(),
         plot.background = element_rect(fill = "white"),
         panel.background = element_rect(fill = "white"))
+                     
 #Missing data
 datatrain5 <- datatrain[sample(nrow(datatrain), 1000), ] #Calling 1000 random rows
 
