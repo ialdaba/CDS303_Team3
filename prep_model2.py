@@ -59,6 +59,20 @@ def split(d,op_col):
 	return X_train, X_test, Y_train, Y_test
   
 ############################################################################################################
+# KFOLD CROSS VALIDATION
+
+df = datafinal
+x = df.iloc[:,:-1]
+y = df.iloc[:,-1]
+
+K = 5
+Kf = model_selection.KFold(n_splits = K, random_state = None)
+modelK = LogisticRegression(solver = 'liblinear')
+
+result = cross_val_score(modelK, x, y, cv = Kf)
+print("acc is: ".format(result.mean()))
+
+############################################################################################################
 # DATA TRAINING SECTION
 
 X_train, X_test, Y_train, Y_test = split(datafinal_scaled, 'TARGET')
