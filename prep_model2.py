@@ -60,6 +60,7 @@ def split(d,op_col):
   
 ############################################################################################################
 # KFOLD CROSS VALIDATION
+from sklearn.model_selection import cross_val_score
 
 df = datafinal
 x = df.iloc[:,:-1]
