@@ -96,6 +96,46 @@ ggplot(data_cleaned3, aes(x = "", #No x value
                                   face = "bold", #bolding title
                                   size = 18)) #adjusting title font size
                      
+#Target Distribution
+sum(datatrain$TARGET == 0) / 307511 #computing percentage that repaid on time
+
+data <- data.frame( #creating new dataset
+  group = c("Repaid Loan", "Difficulty Repaying"), #with a variable called group and rows of difficulty repaying and repaid loan
+  value=c(92, 8)) #defining target distribution
+
+ggplot(data, #calling data
+       aes(x = "", #no x axis
+           y = value, #calling value
+           fill = group)) + #filling by gender
+  geom_bar(stat="identity", width=1) + #defining visual as histogram
+  labs(title = "Target Variable Distribution", #Setting title
+       fill = "Target") + #Setting legend title as "x"
+  coord_polar("y", start=0) + #converting histogram to pie chart
+  theme_void() + #removing visual clutter
+  theme(legend.position = "bottom", #moving legend to bottom
+        plot.title = element_text(hjust = 0.5, #Centering title
+                                  face = "bold", #Bolding title
+                                  size = 18)) #Adjusting title font size
+
+#Undersampled Target Distribution
+sum(data_balanced$TARGET == 0) / 49650 #computing percentage that repaid on time
+
+data_cleaned3 <- data.frame( #creating new dataset
+  group = c("Repaid Loan", "Difficulty Repaying"), #with a variable called group and rows of difficulty repaying and repaid loan
+  value=c(50, 50)) #defining target distribution
+
+ggplot(data_cleaned3, aes(x = "", #No x value
+                          y = value, #percentages
+                          fill = group)) + #labels
+  geom_bar(stat="identity", width=1) + #defining visual as histogram
+  labs(title = "Undersampled Target Variable Distribution", fill = "Target") + # creating title
+  coord_polar("y", start=0) + #converting histogram to pie chart
+  theme_void() + #removing visual clutter
+  theme(legend.position = "bottom", #moving legend to bottom
+        plot.title = element_text(hjust = 0.5, #Centering title
+                                  face = "bold", #bolding title
+                                  size = 18)) #adjusting title font size
+                     
 #Employment Distribution
 datatrain3 <- subset(datatrain, datatrain$DAYS_EMPLOYED < 0)
 
