@@ -21,7 +21,7 @@ ggplot(datatrain2, #calling dataset
   scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) + #Telling R to interpret income as discrete rather than continuous variable so it will plot properly
   geom_vline(aes(xintercept = mean(AMT_INCOME_TOTAL)),color = "red") + #Creating red line that displays the mean income of each group
   labs(title = "Income Distribution", #Setting title
-       x = "Total Lifetime Income") + #labeling x axis
+       x = "Total Income") + #labeling x axis
   theme(plot.title = element_text(hjust = 0.5, #centering title
                                   face = "bold", #bolding title
                                   size = 18), #adjusting font size
